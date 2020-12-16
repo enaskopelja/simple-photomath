@@ -7,7 +7,7 @@ from main import main as calculate
 from pathlib import Path
 
 app = Flask(__name__)
-APP_ROOT = Path('C:/Users/Ena/PycharmProjects/poorPM')
+APP_ROOT = Path('.')
 CORS(app)
 
 

@@ -3,10 +3,8 @@
 `python>=3.8`
 ## Installation
 `pip install -r requrements.txt`
-## Running
-`python api.py` starts Flask api on localhost:5000 
+## Usage
+`python api.py` starts Flask api on `localhost:5000` 
 
-
-`pyhon main.py` takes `image.jpg` as input from `images/` and returns the solution as a string.
-Can save the classifier output (per recognized character) to 
-`samples/from-inference/class-hash.jpg`   
+`POST /api/upload` expects a file named `image`, decodes it, recognizes and solves the written expression. 
+Returns a textual representation of the result.
