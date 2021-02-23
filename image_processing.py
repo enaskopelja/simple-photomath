@@ -31,9 +31,14 @@ def dilate(img, kernel=np.ones((2, 2), np.uint8)):
     return cv2.dilate(img, kernel, iterations=1)
 
 
+def gaussian_blur(image, kernel=(3, 3)):
+    return cv2.GaussianBlur(image, kernel, 0)
+
+
 def preprocess(img, iter=3):
     #approximate background
     dilated = dilate(opening_transform(img), np.ones((5, 5), np.uint8))
+
     blur_bg = dilated
     for i in range(iter):
         blur_bg = cv2.GaussianBlur(blur_bg, (5, 5), 0)
@@ -51,8 +56,17 @@ def find_objects(img):
     objects = []
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
+        max_dim = max(w, h)
+
         cv2.rectangle(imgRGB, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        objects.append((img[y:y + h, x:x + w], x))  # later sort by x
+        obj = img[y:y + h, x:x + w]
+
+        # top bottom left right
+        tb = int(np.floor((max_dim-h)/2.))
+        lr = int(np.floor((max_dim-w)/2.))
+        image = cv2.copyMakeBorder(obj, tb, tb, lr, lr, cv2.BORDER_CONSTANT, value=0)
+
+        objects.append((image, x))  # later sort by x
         cv2.drawContours(imgRGB, contour, -1, (255, 0, 0), 2)
 
     objects.sort(key=lambda o: o[1])
@@ -86,4 +100,9 @@ def resize(img, max_dim=400):
         return cv2.resize(img, (int(h * max_dim/w), max_dim))
     else:
         return cv2.resize(img, (max_dim, int(w * max_dim/h)))
+
+
+def resize_obj(img, width=45, height=45):
+    return cv2.resize(img, (width, height))
+
 

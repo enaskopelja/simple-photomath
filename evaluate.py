@@ -1,11 +1,13 @@
 def digits_to_numbers(eq):
-    labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '(', ')', '+', '-', '/', 'x']
+    labels = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', '/', 'x']
+
     eq_full = []
 
     i = 0
     while i < len(eq):
         tmp = ''
-        while i < len(eq) and eq[i] < 10:
+
+        while i < len(eq) and 3 < eq[i] < 14:
             tmp += labels[eq[i]]
             i += 1
 
@@ -14,6 +16,7 @@ def digits_to_numbers(eq):
 
         if i < len(eq):
             eq_full.append(labels[eq[i]])
+
         i += 1
 
     return eq_full
@@ -22,18 +25,22 @@ def digits_to_numbers(eq):
 def priority(op):
     if op in ['x', '/']:
         return 2
-    
+
     if op in ['+', '-']:
-        return 1 
-    
+        return 1
+
     return 0
 
 
 def apply_op(b, a, op):
-    if op == '+': return a + b
-    if op == '-': return a - b
-    if op == 'x': return a * b
-    if op == '/': return a / b
+    if op == '+':
+        return a + b
+    if op == '-':
+        return a - b
+    if op == 'x':
+        return a * b
+    if op == '/':
+        return a / b
 
 
 def evaluate(eq):
@@ -76,6 +83,3 @@ def evaluate(eq):
         values.append(apply_op(values.pop(), values.pop(), ops.pop()))
 
     return streq + str(values[0])
-
-
-

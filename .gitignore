@@ -3,3 +3,8 @@ static/
 templates/
 .idea/
 __pycache__/
+images/img.jpg
+model/test1
+model/test2
+data/
+samples/
